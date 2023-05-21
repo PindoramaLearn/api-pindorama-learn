@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "fastify": "^4.17.0",
+    "prisma": "^4.14.1",
+    "zod": "^3.21.4"
+  },
+  "name": "1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@prisma/client": "^4.14.1",
+    "@types/node": "^20.2.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsnd --transpile-only --respawn ./src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
