@@ -1,5 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import routes from "./routes";
+import { config } from "dotenv";
+config();
 
 const server: FastifyInstance = fastify({ logger: false });
 
