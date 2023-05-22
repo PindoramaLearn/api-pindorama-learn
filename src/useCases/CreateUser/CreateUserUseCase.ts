@@ -1,7 +1,7 @@
 import { IUserRepository } from "../../repositories/IUserRepository";
 import { ICreateUserDTO } from "./CreateUserDTO";
 import { User } from "../../entities/User";
-import { NodemailerProvider } from "../../providers/implementations/NodeMailerProvider";
+import { NodemailerProvider } from "../../providers/implementations/NodemailerProvider";
 
 export class CreateUserUseCase {
   constructor(private usersRepository: IUserRepository) {}
