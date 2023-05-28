@@ -1,3 +1,4 @@
+import redis from "../../database/cache";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 import { FastifyRequest, FastifyReply } from "fastify";
 
@@ -20,6 +21,12 @@ export class CreateUserController {
         email,
         password,
       });
+
+      await redis.set(name, name)
+
+      const teste = await redis.get(name)
+
+      console.log("Resultado", teste)
 
       return reply.code(201).send({ message: "User created successfully" });
     } catch (err) {

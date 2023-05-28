@@ -1,6 +1,19 @@
 version: "3.1"
 
 services:
+    app:
+        build: .
+        command: sh -c "sleep 60 && npm run dev"
+        restart: always
+        ports:
+            - 3000:3000
+        depends_on:
+            - postgres
+            - redis
+        networks:
+            - backend
+        environment:
+            - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/pindoramalearn?schema=public
     postgres:
         container_name: pindoramalearn
         image: postgres:alpine
@@ -15,19 +28,15 @@ services:
             - ./data:/var/lib/postgresql/data
         networks:
             - backend
-    app:
-        build: .
-        command: sh -c "sleep 10 && npm run dev"
+    redis:
+        image: redis:alpine
+        restart: always
         ports:
-            - 3000:3000
-        volumes:
-            - .:/usr/app
-        depends_on:
-            - postgres
-        links:
-            - postgres
+            - 6379:6379
         networks:
             - backend
+        environment:
+            REDIS_PASSWORD: redis
 networks:
     backend:
         driver: bridge
