@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { createUserController } from "../useCases/CreateUser";
+import { activateAccountController } from "../useCases/ActivateAccount";
 
 export const UserRoutes = (app: FastifyInstance) => {
   app.route({
@@ -30,6 +31,37 @@ export const UserRoutes = (app: FastifyInstance) => {
     },
     handler: async (request, reply) => {
       await createUserController.handle(request, reply);
+    },
+  });
+
+  app.route({
+    method: "POST",
+    url: "/activateaccount",
+    schema: {
+      body: {
+        type: "object",
+        properties: {
+          token: { type: "string" },
+        },
+        required: ["token"],
+      },
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        400: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    handler: async (request, reply) => {
+      await activateAccountController.handle(request, reply);
     },
   });
 };
