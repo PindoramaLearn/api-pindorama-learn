@@ -2,6 +2,8 @@ import { IUserRepository } from "../../repositories/IUserRepository";
 import { ICreateUserDTO } from "./CreateUserDTO";
 import { User } from "../../entities/User";
 import { NodemailerProvider } from "../../providers/implementations/NodemailerProvider";
+import * as uuid from "uuid";
+import redis from "../../database/cache";
 
 export class CreateUserUseCase {
   constructor(private usersRepository: IUserRepository) {}
@@ -19,10 +21,14 @@ export class CreateUserUseCase {
 
     const nodemailer = new NodemailerProvider();
 
+    const uniqueId = uuid.v4();
+
+    await redis.set(uniqueId, user.email);
+
     nodemailer.sendMail({
       to: user.email,
       subject: user.name,
-      body: "<h1>Oi</h1>",
+      body: `<h1>O uuid é: ${uniqueId}</h1>`,
     });
   }
 }
