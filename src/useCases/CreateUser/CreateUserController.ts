@@ -22,11 +22,11 @@ export class CreateUserController {
         password,
       });
 
-      await redis.set(name, name)
+      await redis.set(name, name);
 
-      const teste = await redis.get(name)
+      const teste = await redis.get(name);
 
-      console.log("Resultado", teste)
+      console.log("Resultado", teste);
 
       return reply.code(201).send({ message: "User created successfully" });
     } catch (err) {
