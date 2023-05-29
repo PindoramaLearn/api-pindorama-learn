@@ -22,8 +22,9 @@ export class CreateUserUseCase {
     const nodemailer = new NodemailerProvider();
 
     const uniqueId = uuid.v4();
+    const key = `email-createaccount:${uniqueId}` 
 
-    await redis.set(uniqueId, user.email);
+    await redis.set(key, user.email);
 
     nodemailer.sendMail({
       to: user.email,
