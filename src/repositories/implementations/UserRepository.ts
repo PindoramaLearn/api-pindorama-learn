@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import prismaClient from "../../database/prismaClient";
 import { IUserRepository } from "../IUserRepository";
 import { z } from "zod";
+import * as bcrypt from "bcrypt";
 
 export class UserRepository implements IUserRepository {
   async findByEmail(email: string): Promise<User | null> {
@@ -10,6 +11,12 @@ export class UserRepository implements IUserRepository {
     });
 
     return user as User | null;
+  }
+
+  async findAll(): Promise<User[]> {
+    const users = await prismaClient.user.findMany();
+
+    return users;
   }
 
   async create(data: User): Promise<void> {
@@ -29,6 +36,8 @@ export class UserRepository implements IUserRepository {
     if (!verifyQuery.success) {
       throw new Error("Invalid data");
     }
+
+    queryUser.password = bcrypt.hashSync(queryUser.password, 8);
 
     await prismaClient.user.create({
       data: queryUser,

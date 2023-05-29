@@ -1,8 +1,17 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { createUserController } from "../useCases/CreateUser";
 import { activateAccountController } from "../useCases/ActivateAccount";
+import { findAllUsersController } from "../useCases/FindAllUser";
 
 export const UserRoutes = (app: FastifyInstance) => {
+  app.route({
+    method: "GET",
+    url: "/users",
+    handler: async (request, reply) => {
+      await findAllUsersController.handle(request, reply);
+    },
+  });
+
   app.route({
     method: "POST",
     url: "/users",
@@ -20,10 +29,6 @@ export const UserRoutes = (app: FastifyInstance) => {
         201: {
           type: "object",
           properties: {
-            id: { type: "string" },
-            name: { type: "string" },
-            email: { type: "string" },
-            password: { type: "string" },
             message: { type: "string" },
           },
         },
