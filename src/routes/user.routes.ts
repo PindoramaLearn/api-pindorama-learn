@@ -3,6 +3,7 @@ import { createUserController } from "../useCases/CreateUser";
 import { activateAccountController } from "../useCases/ActivateAccount";
 import { findAllUsersController } from "../useCases/FindAllUser";
 import { RateLimit } from "../middlewares/RateLimit";
+import { loginUserController } from "../useCases/LoginUser";
 
 export const UserRoutes = (app: FastifyInstance) => {
   app.route({
@@ -69,6 +70,24 @@ export const UserRoutes = (app: FastifyInstance) => {
     },
     handler: async (request, reply) => {
       await activateAccountController.handle(request, reply);
+    },
+  });
+
+  app.route({
+    method: "POST",
+    url: "/loginuser",
+    schema: {
+      body: {
+        type: "object",
+        properties: {
+          email: { type: "string" },
+          password: { type: "string" },
+        },
+        required: ["email", "password"],
+      },
+    },
+    handler: async (request, reply) => {
+      await loginUserController.handle(request, reply);
     },
   });
 };
