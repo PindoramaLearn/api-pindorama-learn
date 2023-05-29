@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { createUserController } from "../useCases/CreateUser";
 import { activateAccountController } from "../useCases/ActivateAccount";
 import { findAllUsersController } from "../useCases/FindAllUser";
+import { RateLimit } from "../middlewares/RateLimit";
 
 export const UserRoutes = (app: FastifyInstance) => {
   app.route({
@@ -10,6 +11,7 @@ export const UserRoutes = (app: FastifyInstance) => {
     handler: async (request, reply) => {
       await findAllUsersController.handle(request, reply);
     },
+    preHandler: RateLimit,
   });
 
   app.route({
